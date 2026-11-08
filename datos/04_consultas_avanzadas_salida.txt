@@ -1,0 +1,182 @@
+
+==================== C1 (Laura) - Reporte epidemiológico: notificación obligatoria por sede ====================
+{
+  casos: 2,
+  sede: 'Hospital Marco Fidel Suárez',
+  diagnostico: 'Diarrea y gastroenteritis de presunto origen infeccioso',
+  pacientes_distintos: 2
+}
+{
+  casos: 1,
+  sede: 'Hospital Marco Fidel Suárez',
+  diagnostico: 'Dengue clásico',
+  pacientes_distintos: 1
+}
+
+==================== C2 (Jhon Jader) - Promedio de estancia por sede y servicio ====================
+{
+  episodios: 1,
+  estancia_maxima: 18,
+  estancia_minima: 18,
+  sede: 'ESE Hospital La María',
+  servicio: 'Salud Mental',
+  promedio_estancia: 18
+}
+{
+  episodios: 1,
+  estancia_maxima: 11,
+  estancia_minima: 11,
+  sede: 'Hospital General de Medellín',
+  servicio: 'UCI',
+  promedio_estancia: 11
+}
+{
+  episodios: 2,
+  estancia_maxima: 15,
+  estancia_minima: 3,
+  sede: 'Hospital San Juan de Dios Rionegro',
+  servicio: 'Hospitalización General',
+  promedio_estancia: 9
+}
+{
+  episodios: 2,
+  estancia_maxima: 6,
+  estancia_minima: 3,
+  sede: 'Hospital Marco Fidel Suárez',
+  servicio: 'Pediatría',
+  promedio_estancia: 4.5
+}
+{
+  episodios: 2,
+  estancia_maxima: 4,
+  estancia_minima: 3,
+  sede: 'Hospital General de Medellín',
+  servicio: 'Hospitalización General',
+  promedio_estancia: 3.5
+}
+{
+  episodios: 2,
+  estancia_maxima: 4,
+  estancia_minima: 2,
+  sede: 'Hospital Marco Fidel Suárez',
+  servicio: 'Hospitalización General',
+  promedio_estancia: 3
+}
+
+==================== C3 (Juan Esteban) - Top medicamentos administrados (con nombre) ====================
+{
+  administraciones: 7,
+  medicamento: 'Ceftriaxona',
+  forma: 'Ampolla',
+  episodios: 7
+}
+{
+  administraciones: 4,
+  medicamento: 'Enalapril',
+  forma: 'Tableta',
+  episodios: 4
+}
+{
+  administraciones: 4,
+  medicamento: 'Solución salina 0.9%',
+  forma: 'Solución IV',
+  episodios: 4
+}
+{
+  administraciones: 3,
+  medicamento: 'Acetaminofén',
+  forma: 'Tableta',
+  episodios: 3
+}
+{
+  administraciones: 3,
+  medicamento: 'Omeprazol',
+  forma: 'Cápsula',
+  episodios: 3
+}
+
+==================== C4 - Carga asistencial por médico tratante ====================
+{
+  total_episodios: 3,
+  activos: 0,
+  medico: 'Sebastián Mejía Toro',
+  especialidad: 'Medicina Interna',
+  sede: 'Hospital Marco Fidel Suárez'
+}
+{
+  total_episodios: 3,
+  activos: 2,
+  medico: 'Carolina Restrepo Vélez',
+  especialidad: 'Medicina Interna',
+  sede: 'Hospital General de Medellín'
+}
+{
+  total_episodios: 2,
+  activos: 0,
+  medico: 'Luz Mery Gómez Arango',
+  especialidad: 'Pediatría',
+  sede: 'Hospital Marco Fidel Suárez'
+}
+{
+  total_episodios: 2,
+  activos: 1,
+  medico: 'Paula Cardona Ríos',
+  especialidad: 'Cardiología',
+  sede: 'Hospital General de Medellín'
+}
+{
+  total_episodios: 2,
+  activos: 1,
+  medico: 'Andrés Zapata Ochoa',
+  especialidad: 'Neumología',
+  sede: 'Hospital General de Medellín'
+}
+{
+  total_episodios: 1,
+  activos: 0,
+  medico: 'Jhon Álvarez Monsalve',
+  especialidad: 'Cirugía General',
+  sede: 'Hospital San Juan de Dios Rionegro'
+}
+{
+  total_episodios: 1,
+  activos: 0,
+  medico: 'Natalia Herrera Pineda',
+  especialidad: 'Psiquiatría',
+  sede: 'ESE Hospital La María'
+}
+
+==================== C5 - Pacientes con reingresos (más de un episodio) ====================
+{
+  episodios: 2,
+  diagnosticos_principales: [
+    'J440',
+    'J440'
+  ],
+  paciente: 'María Eugenia Ospina Tabares',
+  eps: 'Savia Salud'
+}
+
+==================== C6 - Distribución por grupos de edad de los hospitalizados ====================
+{
+  _id: 0,
+  episodios: 1,
+  pacientes_distintos: 1
+}
+{
+  _id: 12,
+  episodios: 1,
+  pacientes_distintos: 1
+}
+{
+  _id: 18,
+  episodios: 7,
+  pacientes_distintos: 7
+}
+{
+  _id: 60,
+  episodios: 5,
+  pacientes_distintos: 4
+}
+
+=== Fin de las consultas avanzadas ===

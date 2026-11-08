@@ -1,0 +1,275 @@
+
+========== C1. Insertar un paciente nuevo (insertOne) ==========
+{
+  _id: '1214556677',
+  tipo_documento: 'CC',
+  nombres: 'Valentina',
+  apellidos: 'Agudelo Ramírez',
+  fecha_nacimiento: ISODate('1993-05-26T00:00:00.000Z'),
+  sexo: 'F',
+  grupo_sanguineo: 'O+',
+  contacto: {
+    telefono: '3012345678',
+    direccion: 'Cra 43A #18-50',
+    municipio: 'Medellín',
+    contacto_emergencia: {
+      nombre: 'Hernán Agudelo',
+      parentesco: 'Padre',
+      telefono: '3019876543'
+    }
+  },
+  aseguramiento: {
+    eps: 'Sura',
+    regimen: 'Contributivo'
+  },
+  alergias: [
+    'Yodo'
+  ],
+  activo: true
+}
+
+========== C2. Insertar una hospitalización completa (insertOne con arreglos anidados) ==========
+Insertada: 1
+
+========== C3. Insertar varios medicamentos al catálogo (insertMany) ==========
+Medicamentos en catálogo: 12
+
+========== R1. Hospitalizaciones activas con proyección ==========
+{
+  _id: 'HOSP-2026-0015',
+  paciente_id: '1214556677',
+  sede: 'Hospital General de Medellín',
+  servicio: 'UCI',
+  fecha_ingreso: ISODate('2026-11-06T02:40:00.000Z'),
+  diagnosticos: [
+    {
+      codigo_cie10: 'J18'
+    }
+  ]
+}
+{
+  _id: 'HOSP-2026-0007',
+  paciente_id: '43567812',
+  sede: 'Hospital General de Medellín',
+  servicio: 'Hospitalización General',
+  fecha_ingreso: ISODate('2026-11-01T16:25:00.000Z'),
+  diagnosticos: [
+    {
+      codigo_cie10: 'E119'
+    },
+    {
+      codigo_cie10: 'N390'
+    }
+  ]
+}
+{
+  _id: 'HOSP-2026-0010',
+  paciente_id: '1036458721',
+  sede: 'Hospital General de Medellín',
+  servicio: 'Hospitalización General',
+  fecha_ingreso: ISODate('2026-10-30T05:40:00.000Z'),
+  diagnosticos: [
+    {
+      codigo_cie10: 'J440'
+    },
+    {
+      codigo_cie10: 'J18'
+    }
+  ]
+}
+{
+  _id: 'HOSP-2026-0004',
+  paciente_id: '8456123',
+  sede: 'Hospital General de Medellín',
+  servicio: 'UCI',
+  fecha_ingreso: ISODate('2026-10-28T03:22:00.000Z'),
+  diagnosticos: [
+    {
+      codigo_cie10: 'I219'
+    },
+    {
+      codigo_cie10: 'I10'
+    },
+    {
+      codigo_cie10: 'E119'
+    }
+  ]
+}
+{
+  _id: 'HOSP-2026-0009',
+  paciente_id: '1152004477',
+  sede: 'ESE Hospital La María',
+  servicio: 'Salud Mental',
+  fecha_ingreso: ISODate('2026-10-20T10:00:00.000Z'),
+  diagnosticos: [
+    {
+      codigo_cie10: 'F329'
+    }
+  ]
+}
+
+========== R2. Pacientes con alergia a la penicilina (búsqueda dentro de un arreglo) ==========
+{
+  _id: '1036458721',
+  nombres: 'María Eugenia',
+  apellidos: 'Ospina Tabares',
+  alergias: [
+    'Penicilina'
+  ]
+}
+{
+  _id: '21456098',
+  nombres: 'Rosa Amelia',
+  apellidos: 'Cadavid Londoño',
+  alergias: [
+    'Penicilina',
+    'AINES'
+  ]
+}
+
+========== R3. Episodios con fiebre > 38.5 °C en alguna evolución ($elemMatch) ==========
+{
+  _id: 'HOSP-2026-0002',
+  paciente_id: '1098776543',
+  motivo_consulta: 'Fiebre de 39°C y dificultad respiratoria'
+}
+{
+  _id: 'HOSP-2026-0005',
+  paciente_id: '70884512',
+  motivo_consulta: 'Caída de su propia altura con impotencia funcional de miembro inferior derecho'
+}
+{
+  _id: 'HOSP-2026-0008',
+  paciente_id: '21456098',
+  motivo_consulta: 'Deterioro del estado general, fiebre y desaturación'
+}
+{
+  _id: 'HOSP-2026-0015',
+  paciente_id: '1214556677',
+  motivo_consulta: 'Fiebre alta y signos de respuesta inflamatoria sistémica'
+}
+
+========== R4. Estancias largas: más de 10 días ==========
+{
+  _id: 'HOSP-2026-0001',
+  paciente_id: '1036458721',
+  sede: 'Hospital General de Medellín',
+  dias_estancia: 11
+}
+{
+  _id: 'HOSP-2026-0005',
+  paciente_id: '70884512',
+  sede: 'Hospital San Juan de Dios Rionegro',
+  dias_estancia: 15
+}
+
+========== U1. Campo SIMPLE: cambiar el estado de una cama ==========
+{
+  _id: 'HGM-UCI-03',
+  sede: 'Hospital General de Medellín',
+  servicio: 'UCI',
+  piso: 4,
+  estado: 'Ocupada',
+  aislamiento: false
+}
+
+========== U2. Campo ANIDADO con notación de punto: teléfono del contacto de emergencia ==========
+{
+  _id: '1036458721',
+  contacto: {
+    contacto_emergencia: {
+      nombre: 'Diego Ospina',
+      parentesco: 'Hijo',
+      telefono: '3157788991'
+    }
+  }
+}
+
+========== U3. $push: agregar una evolución al arreglo anidado ==========
+Evoluciones registradas: 2
+
+========== U4. Operador posicional $: corregir la dosis de un medicamento YA administrado ==========
+{
+  _id: 'HOSP-2026-0015',
+  medicamentos_administrados: [
+    {
+      medicamento_id: 'MED-007',
+      dosis: '2 g',
+      via: 'Intravenosa',
+      frecuencia_horas: 24,
+      fecha: ISODate('2026-11-06T04:00:00.000Z')
+    }
+  ]
+}
+
+========== U5. $addToSet: registrar una alergia nueva sin duplicar ==========
+{
+  _id: '1017889234',
+  nombres: 'Jhon Fredy',
+  alergias: [
+    'Ceftriaxona'
+  ]
+}
+
+========== U6. updateMany: marcar como 'En limpieza' las camas de un servicio cerrado ==========
+Camas modificadas: 0
+
+========== U7. Cierre de episodio: egreso + cálculo de días de estancia ==========
+{
+  _id: 'HOSP-2026-0009',
+  fecha_egreso: ISODate('2026-11-07T10:00:00.000Z'),
+  estado: 'Egresado',
+  dias_estancia: 18
+}
+
+========== U8. $pull: retirar un diagnóstico mal codificado del arreglo ==========
+{
+  _id: 'HOSP-2026-0004',
+  diagnosticos: [
+    {
+      codigo_cie10: 'I219',
+      tipo: 'Principal',
+      fecha: ISODate('2026-10-28T04:00:00.000Z')
+    },
+    {
+      codigo_cie10: 'I10',
+      tipo: 'Relacionado',
+      fecha: ISODate('2026-10-28T04:00:00.000Z')
+    }
+  ]
+}
+
+========== D1. SOFT DELETE de una hospitalización (anulación lógica) ==========
+{
+  _id: 'HOSP-2026-0012',
+  activo: false,
+  auditoria: {
+    creado_por: 'admision.mfs',
+    fecha_creacion: ISODate('2026-10-18T08:35:00.000Z'),
+    fecha_modificacion: ISODate('2026-11-07T08:00:00.000Z'),
+    modificado_por: 'auditoria.calidad'
+  },
+  motivo_anulacion: 'Episodio duplicado detectado en auditoría de calidad'
+}
+Total: 15 | Visibles (activo:true): 13
+
+========== D2. SOFT DELETE de un paciente (inactivación) ==========
+Pacientes activos: 12 de 13
+
+========== D3. Restaurar un documento con soft delete (reversibilidad) ==========
+Restaurado. Visibles: 14
+
+========== D4. ELIMINACIÓN DEFINITIVA de un registro de catálogo (deleteOne) ==========
+MED-012 eliminado definitivamente (no estaba referenciado).
+Medicamentos en catálogo: 11
+
+========== D5. deleteMany con guarda de integridad referencial ==========
+Eliminados: 1
+
+========== ESTADO FINAL ==========
+  pacientes: 13
+  medicos: 7
+  camas: 12
+  medicamentos: 10
+  diagnosticos_cie10: 10
+  hospitalizaciones: 15

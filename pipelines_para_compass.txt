@@ -1,0 +1,80 @@
+===========================================================================
+ PIPELINES LISTOS PARA PEGAR EN MONGODB COMPASS
+ Colección: hospitalizaciones  (base hce_antioquia)
+ Uso: pestaña Aggregations -> botón </> TEXT -> pegar el bloque -> Run
+===========================================================================
+
+---------------------------------------------------------------------------
+ C1 (Laura) — Reporte epidemiológico: notificación obligatoria por sede
+---------------------------------------------------------------------------
+[
+  { $match: { activo: true } },
+  { $unwind: "$diagnosticos" },
+  { $lookup: { from: "diagnosticos_cie10", localField: "diagnosticos.codigo_cie10", foreignField: "_id", as: "dx" } },
+  { $unwind: "$dx" },
+  { $match: { "dx.es_notificacion_obligatoria": true } },
+  { $group: { _id: { sede: "$sede", diagnostico: "$dx.nombre" }, casos: { $sum: 1 }, pacientes: { $addToSet: "$paciente_id" } } },
+  { $project: { _id: 0, sede: "$_id.sede", diagnostico: "$_id.diagnostico", casos: 1, pacientes_distintos: { $size: "$pacientes" } } },
+  { $sort: { casos: -1, sede: 1 } }
+]
+
+---------------------------------------------------------------------------
+ C2 (Jhon Jader) — Promedio de estancia por sede y servicio
+---------------------------------------------------------------------------
+[
+  { $match: { activo: true, dias_estancia: { $gt: 0 } } },
+  { $group: { _id: { sede: "$sede", servicio: "$servicio" }, episodios: { $sum: 1 }, promedio_estancia: { $avg: "$dias_estancia" }, estancia_maxima: { $max: "$dias_estancia" }, estancia_minima: { $min: "$dias_estancia" } } },
+  { $project: { _id: 0, sede: "$_id.sede", servicio: "$_id.servicio", episodios: 1, promedio_estancia: { $round: ["$promedio_estancia", 1] }, estancia_maxima: 1, estancia_minima: 1 } },
+  { $sort: { promedio_estancia: -1 } }
+]
+
+---------------------------------------------------------------------------
+ C3 (Juan Esteban) — Top de medicamentos administrados (con nombre)
+---------------------------------------------------------------------------
+[
+  { $match: { activo: true } },
+  { $unwind: "$medicamentos_administrados" },
+  { $group: { _id: "$medicamentos_administrados.medicamento_id", administraciones: { $sum: 1 }, episodios_distintos: { $addToSet: "$_id" } } },
+  { $lookup: { from: "medicamentos", localField: "_id", foreignField: "_id", as: "med" } },
+  { $unwind: "$med" },
+  { $project: { _id: 0, medicamento: "$med.nombre", forma: "$med.forma_farmaceutica", administraciones: 1, episodios: { $size: "$episodios_distintos" } } },
+  { $sort: { administraciones: -1 } },
+  { $limit: 5 }
+]
+
+---------------------------------------------------------------------------
+ C4 — Carga asistencial por médico tratante
+---------------------------------------------------------------------------
+[
+  { $match: { activo: true } },
+  { $group: { _id: "$medico_tratante_id", total_episodios: { $sum: 1 }, activos: { $sum: { $cond: [{ $eq: ["$estado", "Activa"] }, 1, 0] } } } },
+  { $lookup: { from: "medicos", localField: "_id", foreignField: "_id", as: "m" } },
+  { $unwind: "$m" },
+  { $project: { _id: 0, medico: { $concat: ["$m.nombres", " ", "$m.apellidos"] }, especialidad: "$m.especialidad", sede: "$m.sede", total_episodios: 1, activos: 1 } },
+  { $sort: { total_episodios: -1 } }
+]
+
+---------------------------------------------------------------------------
+ C5 — Pacientes con reingresos (más de un episodio)
+---------------------------------------------------------------------------
+[
+  { $match: { activo: true } },
+  { $group: { _id: "$paciente_id", episodios: { $sum: 1 }, diagnosticos_principales: { $push: { $arrayElemAt: ["$diagnosticos.codigo_cie10", 0] } } } },
+  { $match: { episodios: { $gt: 1 } } },
+  { $lookup: { from: "pacientes", localField: "_id", foreignField: "_id", as: "p" } },
+  { $unwind: "$p" },
+  { $project: { _id: 0, paciente: { $concat: ["$p.nombres", " ", "$p.apellidos"] }, eps: "$p.aseguramiento.eps", episodios: 1, diagnosticos_principales: 1 } },
+  { $sort: { episodios: -1 } }
+]
+
+---------------------------------------------------------------------------
+ C6 — Distribución por grupos de edad ($bucket)
+---------------------------------------------------------------------------
+[
+  { $match: { activo: true } },
+  { $lookup: { from: "pacientes", localField: "paciente_id", foreignField: "_id", as: "p" } },
+  { $unwind: "$p" },
+  { $addFields: { edad: { $dateDiff: { startDate: "$p.fecha_nacimiento", endDate: "$$NOW", unit: "year" } } } },
+  { $bucket: { groupBy: "$edad", boundaries: [0, 12, 18, 60, 120], default: "Sin dato", output: { episodios: { $sum: 1 }, pacientes: { $addToSet: "$paciente_id" } } } },
+  { $project: { episodios: 1, pacientes_distintos: { $size: "$pacientes" } } }
+]

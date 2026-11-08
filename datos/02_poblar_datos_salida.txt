@@ -1,0 +1,8 @@
+=== Conteo de documentos ===
+  diagnosticos_cie10: 10
+  medicamentos: 10
+  medicos: 7
+  camas: 12
+  pacientes: 12
+  hospitalizaciones: 14
+  hospitalizaciones activas (soft delete): 13

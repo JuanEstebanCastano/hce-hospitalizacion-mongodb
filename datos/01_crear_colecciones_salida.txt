@@ -1,0 +1,7 @@
+=== Colecciones creadas ===
+  - diagnosticos_cie10
+  - medicamentos
+  - pacientes
+  - medicos
+  - hospitalizaciones
+  - camas
