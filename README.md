@@ -177,7 +177,6 @@ epidemiológico.
 
 | Integrante | Rol | Consulta avanzada propia (script 04) |
 |---|---|---|
-| Laura | Analista NoSQL | **C1** — Reporte epidemiológico: diagnósticos de notificación obligatoria por sede (`$match`, `$unwind`, `$lookup`, `$group`, `$project`, `$sort`) |
 | Jhon Jader Correa | Analista NoSQL | **C2** — Promedio de días de estancia por sede y servicio (`$match`, `$group`, `$project`, `$sort`) |
 | Juan Esteban Castaño Montoya | Analista NoSQL | **C3** — Top de medicamentos más administrados con `$lookup` al catálogo (`$unwind`, `$group`, `$lookup`, `$project`, `$sort`, `$limit`) |
 
